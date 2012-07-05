@@ -25,7 +25,7 @@ grails.project.dependency.resolution = {
     dependencies {
         test "org.codehaus.geb:geb-junit4:0.7.0"
         test "org.seleniumhq.selenium:selenium-support:2.6.0"
-		test "org.seleniumhq.selenium:selenium-firefox-driver:2.24.1"
+		test "org.seleniumhq.selenium:selenium-firefox-driver:2.9.0"
 		test("org.seleniumhq.selenium:selenium-htmlunit-driver:2.24.1") {
 			exclude 'xml-apis'
 		}

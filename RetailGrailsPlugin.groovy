@@ -11,15 +11,15 @@ class RetailGrailsPlugin {
     ]
 
     // TODO Fill in these fields
-    def title = "Retail Plugin" // Headline display name of the plugin
-    def author = "Your name"
-    def authorEmail = ""
+    def title = "E-commerce Plugin" // Headline display name of the plugin
+    def author = "Paul Bowler"
+    def authorEmail = "paul_bowler@yahoo.com"
     def description = '''\
 Brief summary/description of the plugin.
 '''
 
     // URL to the plugin's documentation
-    def documentation = "http://grails.org/plugin/retail"
+    def documentation = "http://grails.org/plugin/ecommerce"
 
     // Extra (optional) plugin metadata
 
