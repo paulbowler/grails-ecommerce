@@ -23,8 +23,12 @@ grails.project.dependency.resolution = {
         //mavenRepo "http://repository.jboss.com/maven2/"
     }
     dependencies {
-        // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
-        // runtime 'mysql:mysql-connector-java:5.1.5'
+        test "org.codehaus.geb:geb-junit4:0.7.0"
+        test "org.seleniumhq.selenium:selenium-support:2.6.0"
+		test "org.seleniumhq.selenium:selenium-firefox-driver:2.24.1"
+		test("org.seleniumhq.selenium:selenium-htmlunit-driver:2.24.1") {
+			exclude 'xml-apis'
+		}
     }
 
     plugins {
@@ -40,6 +44,7 @@ grails.project.dependency.resolution = {
         compile ":spring-security-ui:0.2"
         compile ":webflow:2.0.0"
         compile ":searchable:0.6.3"
-        compile ":geb:0.6.3"
+        test ":cucumber:0.6.0"
+        test ":geb:0.7.0"
     }
 }
