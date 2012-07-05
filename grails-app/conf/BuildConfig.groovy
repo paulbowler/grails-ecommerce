@@ -11,8 +11,10 @@ grails.project.dependency.resolution = {
         // excludes 'ehcache'
     }
     log "warn" // log level of Ivy resolver, either 'error', 'warn', 'info', 'debug' or 'verbose'
+	
     repositories {
         grailsCentral()
+        // For Geb snapshot
         // uncomment the below to enable remote dependency resolution
         // from public Maven repositories
         //mavenCentral()
@@ -23,12 +25,6 @@ grails.project.dependency.resolution = {
         //mavenRepo "http://repository.jboss.com/maven2/"
     }
     dependencies {
-        test "org.codehaus.geb:geb-junit4:0.7.0"
-        test "org.seleniumhq.selenium:selenium-support:2.6.0"
-		test "org.seleniumhq.selenium:selenium-firefox-driver:2.9.0"
-		test("org.seleniumhq.selenium:selenium-htmlunit-driver:2.24.1") {
-			exclude 'xml-apis'
-		}
     }
 
     plugins {
@@ -45,6 +41,5 @@ grails.project.dependency.resolution = {
         compile ":webflow:2.0.0"
         compile ":searchable:0.6.3"
         test ":cucumber:0.6.0"
-        test ":geb:0.7.0"
     }
 }
