@@ -1,24 +1,24 @@
 import static cucumber.runtime.groovy.EN.*
 import static groovy.util.GroovyTestCase.assertNotNull
+import static groovy.util.GroovyTestCase.assertNull
 import static groovy.util.GroovyTestCase.assertEquals
 import cucumber.runtime.PendingException
 import cucumber.table.DataTable
 import retail.BasketController
 import retail.Product
 
-BasketController basketController
+BasketController basketController = new BasketController()
 def model
 def products
 
 Given(~'^I have an empty basket\$') { ->
-    basketController = new BasketController()
 }
 When(~'^I view my basket\$') { ->
     model = basketController.show()
 }
 Then(~'^I see (\\d+) items in my basket\$') { int items ->
-	assert model.basket.id == 1
-	assert items == (model.basket.basketItems?.count() ?: 0)
+	assertNotNull model.basket
+	assertNull model.basket.basketItems
 }
 
 Given(~'^the following items are available:\$') { DataTable items ->
@@ -34,6 +34,5 @@ When(~'^I add product with ID (\\d+) to my basket$') { int id ->
 }
 Then(~'^my basket contains the product with ID (\\d+)\$') { int id ->
     model = basketController.show()
-    assertNotNull model.basket
-    assert model.basket.total != 0
+    assert model.basket.basketItems.findAll{ item -> item.product.id == id }.size() == 1
 }
