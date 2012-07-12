@@ -1,5 +1,6 @@
 import static cucumber.runtime.groovy.EN.*
 import static groovy.util.GroovyTestCase.assertNotNull
+import static groovy.util.GroovyTestCase.assertEquals
 import cucumber.runtime.PendingException
 import cucumber.table.DataTable
 import retail.BasketController
@@ -27,9 +28,9 @@ Given(~'^the following items are available:\$') { DataTable items ->
     }
 }
 When(~'^I add product with ID (\\d+) to my basket$') { int id ->
-	def params = [productId: id]
-	basketController.request.params = params
+	basketController.params.productId = id
     basketController.addProductToBasket()
+    assertEquals basketController.flash.message, "The item has been added to your basket."
 }
 Then(~'^my basket contains the product with ID (\\d+)\$') { int id ->
     model = basketController.show()
