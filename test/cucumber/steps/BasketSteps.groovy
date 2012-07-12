@@ -16,7 +16,7 @@ Given(~'^I have an empty basket\$') { ->
 When(~'^I view my basket\$') { ->
     model = basketController.show()
 }
-Then(~'^I see (\\d+) items in my basket\$') { int items ->
+Then(~'^I see (\\d+) items? in my basket\$') { int items ->
 	assertNotNull model.basket
 	assertNull model.basket.basketItems
 }

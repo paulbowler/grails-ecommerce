@@ -14,7 +14,8 @@ Scenario: add single item to basket
   			| sku   | name    | description               | price  |
 			| A1000 | Piano   | A very lovely grand piano | 499900 |
   	When I add product with ID 1 to my basket
-  	Then my basket contains the product with ID 1
+  	Then I see 1 item in my basket
+  		And my basket contains the product with ID 1
 
 Scenario: add multiple items to basket
 	Given I have an empty basket
@@ -26,6 +27,7 @@ Scenario: add multiple items to basket
   	When I add product with ID 1 to my basket
   		And I add product with ID 2 to my basket
   		And I add product with ID 3 to my basket
-  	Then my basket contains the product with ID 1
+  	Then I see 3 items in my basket
+  		And my basket contains the product with ID 1
   		And my basket contains the product with ID 2
   		And my basket contains the product with ID 3
