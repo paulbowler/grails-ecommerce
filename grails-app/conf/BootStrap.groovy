@@ -2,9 +2,9 @@ import retail.*
 
 class BootStrap {
     def init = { servletContext ->
-        new Product(sku: 10001, name: "Grand Piano", description: "A very lovely grand piano", price: 499900).save(failOnError: true)
-        new Product(sku: 10002, name: "French Flute", description: "A shiny silver flute", price: 199500).save(failOnError: true)
-        new Product(sku: 10003, name: "German Bassoon", description: "A mellow German bassoon", price: 299900).save(failOnError: true)
+        //new Product(sku: 10001, name: "Grand Piano", description: "A very lovely grand piano", price: 499900).save(failOnError: true)
+        //new Product(sku: 10002, name: "French Flute", description: "A shiny silver flute", price: 199500).save(failOnError: true)
+        //new Product(sku: 10003, name: "German Bassoon", description: "A mellow German bassoon", price: 299900).save(failOnError: true)
         
         new ShippingMethod(code: "express", name: "Next day", description: "Special next-day delivery if ordered before 2pm").save(failOnError: true)
         new ShippingMethod(code: "first", name: "First Class", description: "Standard first class delivery in 2-4 days").save(failOnError: true)

@@ -36,3 +36,10 @@ Then(~'^my basket contains the product with ID (\\d+)\$') { int id ->
     model = basketController.show()
     assert model.basket.basketItems.findAll{ item -> item.product.id == id }.size() == 1
 }
+Then(~'^my basket contains the product with ID (\\d+), name (.*) and price (\\d+)\$') { int id, String name, int price ->
+    model = basketController.show()
+    def item = model.basket.basketItems.findAll{ item -> item.product.id == id }
+    assertEquals item.size(), 1
+    assertEquals item.product.name[0], name
+    assertEquals item.product.price[0], price
+}
