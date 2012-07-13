@@ -9,12 +9,12 @@ class BasketController {
         redirect(action: "show", params: params)
     }
     
-    def addProductToBasket() {
+    def add() {
     	def myBasket = basketService.findOrCreateBasket(session)
     	
     	// Add the product to the basket
-    	if (params.productId) {
-    		def product = Product.get(params.productId)
+    	if (params.sku) {
+    		def product = Product.findBySku(params.sku)
     		if (product) {
     			// Only add to the basket if not already there
     			if (!BasketItem.findByBasketAndProduct(myBasket, product)) {

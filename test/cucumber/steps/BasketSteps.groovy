@@ -9,7 +9,6 @@ import retail.Product
 
 BasketController basketController = new BasketController()
 def model
-def products
 
 Given(~'^I have an empty basket\$') { ->
 }
@@ -22,30 +21,26 @@ Then(~'^I see (\\d+) items? in my basket\$') { int items ->
 }
 
 Given(~'^the following items are available:\$') { DataTable items ->
-	products = items.asList(Product)
+	def products = items.asList(Product)
     products.each { item ->
     	new Product(sku: item.sku, name: item.name, description: item.description, price: item.price).save(failOnError: true)
     }
 }
-When(~'^I add product with ID (\\d+) to my basket$') { int id ->
-	basketController.params.productId = id
-    basketController.addProductToBasket()
+When(~'^I add product with SKU (.*) to my basket$') { String sku ->
+	basketController.params.sku = sku
+    basketController.add()
     assertEquals basketController.flash.message, "The item has been added to your basket."
 }
-Then(~'^my basket contains the product with ID (\\d+)\$') { int id ->
+Then(~'^my basket contains the product with SKU (.*), name (.*), price (\\d+) and quantity (\\d+)\$') { String sku, String name, int price, int quantity ->
     model = basketController.show()
-    assert model.basket.basketItems.findAll{ item -> item.product.id == id }.size() == 1
-}
-Then(~'^my basket contains the product with ID (\\d+), name (.*), price (\\d+) and quantity (\\d+)\$') { int id, String name, int price, int quantity ->
-    model = basketController.show()
-    def item = model.basket.basketItems.findAll{ item -> item.product.id == id }
+    def item = model.basket.basketItems.findAll{ item -> item.product.sku == sku }
     assertEquals item.size(), 1
     assertEquals item.product.name[0], name
     assertEquals item.product.price[0], price
     assertEquals item.quantity[0], 1
 }
 
-When(~'^I update the quantity of product with ID (\\d+) to (\\d+)\$') { int id, int quantity ->
+When(~'^I update the quantity of product with SKU (.*) to (\\d+)\$') { String sku, int quantity ->
     basketController.params.id = quantity
     basketController.update()
     assertEquals basketController.flash.message, "Basket has been updated."

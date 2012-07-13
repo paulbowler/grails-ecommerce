@@ -45,9 +45,9 @@
 					</li>
 				</g:if>
 			</ol>
-			<g:form controller="basket" action="addProductToBasket" >
+			<g:form controller="basket" action="add" >
 				<fieldset class="buttons">
-					<g:hiddenField name="productId" value="${productInstance?.id}" />
+					<g:hiddenField name="sku" value="${productInstance?.sku}" />
 					<g:submitButton name="add" class="add_to_cart" value="${message(code: 'default.basket.add.label', default: 'Add to basket')}" />
 				</fieldset>
 			</g:form>
