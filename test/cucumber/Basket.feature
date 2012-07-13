@@ -15,19 +15,54 @@ Scenario: add single item to basket
 			| A1000 | Piano   | A very lovely grand piano | 499900 |
   	When I add product with ID 1 to my basket
   	Then I see 1 item in my basket
-  		And my basket contains the product with ID 1, name Piano and price 499900
+  		And my basket contains the product with ID 1, name Piano, price 499900 and quantity 1
 
+@ignore
 Scenario: add multiple items to basket
 	Given I have an empty basket
 		And the following items are available:
   			| sku   | name    | description               | price  |
-  			| A1000 | Piano   | A very lovely grand piano | 499900 |
   			| B2000 | Flute   | A shiny silver flute      | 199500 |
   			| C3000 | Bassoon | A mellow German bassoon   | 299900 |
+  			| D4000 | Trumpet | A golden French trumpet   | 159900 |
   	When I add product with ID 1 to my basket
   		And I add product with ID 2 to my basket
   		And I add product with ID 3 to my basket
   	Then I see 3 items in my basket
-  		And my basket contains the product with ID 1, name Piano and price 499900
-  		And my basket contains the product with ID 2, name Flute and price 199500
-  		And my basket contains the product with ID 3, name Bassoon and price 299900
+  		And my basket contains the product with ID 2, name Flute, price 199500 and quantity 1
+  		And my basket contains the product with ID 3, name Bassoon, price 299900 and quantity 1
+  		And my basket contains the product with ID 4, name Trumpet, price 159900 and quantity 1
+
+@ignore
+Scenario: increase single item quantity
+	Given I have an empty basket
+		And the following items are available:
+  			| sku   | name    | description               | price  |
+			| A1000 | Piano   | A very lovely grand piano | 499900 |
+  	When I add product with ID 1 to my basket
+  		And I update the quantity of product with ID 1 to 2
+  	Then I see 1 item in my basket
+  		And my basket contains the product with ID 1, name Piano, price 499900 and quantity 2
+
+@ignore
+Scenario: decrease single item quantity to zero
+	Given I have an empty basket
+		And the following items are available:
+  			| sku   | name    | description               | price  |
+			| A1000 | Piano   | A very lovely grand piano | 499900 |
+  	When I add product with ID 1 to my basket
+  		And I update the quantity of product with ID 1 to 0
+  	Then I see 0 items in my basket
+
+@ignore
+Scenario: decrease multiple item quantity to zero
+	Given I have an empty basket
+		And the following items are available:
+  			| sku   | name    | description               | price  |
+			| A1000 | Piano   | A very lovely grand piano | 499900 |
+			| B2000 | Flute   | A shiny silver flute      | 199500 |
+  	When I add product with ID 1 to my basket
+  		And I add product with ID 2 to my basket
+  		And I update the quantity of product with ID 1 to 0
+  		And I update the quantity of product with ID 2 to 0
+  	Then I see 0 items in my basket

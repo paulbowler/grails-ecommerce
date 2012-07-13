@@ -36,10 +36,17 @@ Then(~'^my basket contains the product with ID (\\d+)\$') { int id ->
     model = basketController.show()
     assert model.basket.basketItems.findAll{ item -> item.product.id == id }.size() == 1
 }
-Then(~'^my basket contains the product with ID (\\d+), name (.*) and price (\\d+)\$') { int id, String name, int price ->
+Then(~'^my basket contains the product with ID (\\d+), name (.*), price (\\d+) and quantity (\\d+)\$') { int id, String name, int price, int quantity ->
     model = basketController.show()
     def item = model.basket.basketItems.findAll{ item -> item.product.id == id }
     assertEquals item.size(), 1
     assertEquals item.product.name[0], name
     assertEquals item.product.price[0], price
+    assertEquals item.quantity[0], 1
+}
+
+When(~'^I update the quantity of product with ID (\\d+) to (\\d+)\$') { int id, int quantity ->
+    basketController.params.id = quantity
+    basketController.update()
+    assertEquals basketController.flash.message, "Basket has been updated."
 }
