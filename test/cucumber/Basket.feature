@@ -1,10 +1,10 @@
 Feature: manage basket
     As a customer
-    I want to add products to and manage products in my basket
+    I want to add products to (and manage products in) my basket
     so that I can order multiple products in one transaction
 
 Scenario: empty basket
-   Given I have an empty basket
+	Given I have an empty basket
     When I view my basket
     Then I see 0 items in my basket
     
@@ -14,7 +14,20 @@ Scenario: add single item to basket
   			| sku   | name    | description               | price  |
 			| A1000 | Piano   | A very lovely grand piano | 499900 |
   	When I add product with SKU A1000 to my basket
-  	Then I see 1 item in my basket
+  	Then the flash message reads "The item has been added to your basket."
+  		And I see 1 item in my basket
+  		And my basket contains the product with SKU A1000, name Piano, price 499900 and quantity 1
+
+@ignore
+Scenario: add duplicate item to basket
+	Given I have an empty basket
+		And the following items are available:
+  			| sku   | name    | description               | price  |
+			| A1000 | Piano   | A very lovely grand piano | 499900 |
+  	When I add product with SKU A1000 to my basket
+  		And I add product with SKU A1000 to my basket
+  	Then the flash message reads "This product is already in your basket."
+  		And I see 1 item in my basket
   		And my basket contains the product with SKU A1000, name Piano, price 499900 and quantity 1
 
 @ignore
@@ -41,7 +54,8 @@ Scenario: increase single item quantity
 			| A1000 | Piano   | A very lovely grand piano | 499900 |
   	When I add product with SKU A1000 to my basket
   		And I update the quantity of product with SKU A1000 to 2
-  	Then I see 1 item in my basket
+  	Then the flash message reads "Basket has been updated."
+  		And I see 1 item in my basket
   		And my basket contains the product with SKU A1000, name Piano, price 499900 and quantity 2
 
 @ignore
@@ -52,7 +66,8 @@ Scenario: decrease single item quantity to zero
 			| A1000 | Piano   | A very lovely grand piano | 499900 |
   	When I add product with SKU A1000 to my basket
   		And I update the quantity of product with SKU A1000 to 0
-  	Then I see 0 items in my basket
+  	Then the flash message reads "Basket has been updated."
+  		And I see 0 items in my basket
 
 @ignore
 Scenario: decrease multiple item quantity to zero
@@ -65,4 +80,5 @@ Scenario: decrease multiple item quantity to zero
   		And I add product with SKU B2000 to my basket
   		And I update the quantity of product with SKU A1000 to 0
   		And I update the quantity of product with SKU B2000 to 0
-  	Then I see 0 items in my basket
+  	Then the flash message reads "Basket has been updated."
+  		And I see 0 items in my basket

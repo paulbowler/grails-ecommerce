@@ -29,7 +29,6 @@ Given(~'^the following items are available:\$') { DataTable items ->
 When(~'^I add product with SKU (.*) to my basket$') { String sku ->
 	basketController.params.sku = sku
     basketController.add()
-    assertEquals basketController.flash.message, "The item has been added to your basket."
 }
 Then(~'^my basket contains the product with SKU (.*), name (.*), price (\\d+) and quantity (\\d+)\$') { String sku, String name, int price, int quantity ->
     model = basketController.show()
@@ -40,8 +39,11 @@ Then(~'^my basket contains the product with SKU (.*), name (.*), price (\\d+) an
     assertEquals item.quantity[0], 1
 }
 
+Then(~'^the flash message reads "(.*)"\$') { String message ->
+    assertEquals basketController.flash.message, message
+}
+
 When(~'^I update the quantity of product with SKU (.*) to (\\d+)\$') { String sku, int quantity ->
     basketController.params.id = quantity
     basketController.update()
-    assertEquals basketController.flash.message, "Basket has been updated."
 }
