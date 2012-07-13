@@ -5,8 +5,8 @@ Feature: manage basket
 
 Scenario: empty basket
 	Given I have an empty basket
-    When I view my basket
-    Then I see 0 items in my basket
+	When I view my basket
+	Then I see 0 items in my basket
     
 Scenario: add single item to basket
 	Given I have an empty basket
