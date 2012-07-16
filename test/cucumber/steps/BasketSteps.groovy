@@ -12,9 +12,11 @@ def model
 
 Given(~'^I have an empty basket\$') { ->
 }
+
 When(~'^I view my basket\$') { ->
 	model = basketController.show()
 }
+
 Then(~'^I see (\\d+) items? in my basket\$') { int items ->
 	assertEquals items, (model.basket.basketItems?.size() ?: 0)
 }
@@ -25,17 +27,19 @@ Given(~'^the following items are available for purchase:\$') { DataTable items -
     	new Product(sku: item.sku, name: item.name, description: item.description, price: item.price).save(failOnError: true)
     }
 }
+
 When(~'^I add product with SKU (.*) to my basket$') { String sku ->
 	basketController.response.reset()
 	basketController.params.sku = sku
 	model = basketController.add()
 }
-Then(~'^my basket contains the product with SKU (.*), name (.*), price (\\d+) and quantity (\\d+)\$') { String sku, String name, int price, int quantity ->
+
+Then(~'^my basket contains (\\d+) (.*) with SKU (.*) costing (\\d+) units$') { int quantity, String name, String sku, int price  ->
     def item = model.basket.basketItems.findAll{ item -> item.product.sku == sku }
-    assertEquals item.size(), 1
-    assertEquals item.product.name[0], name
-    assertEquals item.product.price[0], price
-    assertEquals item.quantity[0], quantity
+    assertEquals 1, item.size()
+    assertEquals name, item.product.name[0]
+    assertEquals price, item.total[0]
+    assertEquals quantity, item.quantity[0]
 }
 
 Then(~'^the flash message reads "(.*)"\$') { String message ->

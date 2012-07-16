@@ -10,4 +10,8 @@ class BasketItem implements Serializable {
 	
     static constraints = {
     }
+    
+    def getTotal() {
+    	return product.price * quantity
+    }
 }
