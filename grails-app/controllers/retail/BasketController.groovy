@@ -36,14 +36,16 @@ class BasketController {
     
     def update() {
     	def myBasket = basketService.findOrCreateBasket(session)
-    	params.each {
-    		if(it.key.isNumber()) {
-    			def product = Product.get(it.key)
+    	params.each { param ->
+    		if (param.key.startsWith("sku-")) {
+    			def key = param.key.substring(4)
+    			def product = Product.findBySku(key)
     			if (product) {
     				def basketItem = BasketItem.findByBasketAndProduct(myBasket, product)
     				if (basketItem) {
-    					def qty = it.value.toInteger()
+						def qty = param.value.toInteger()
     					if (qty == 0) {
+    						myBasket.removeFromBasketItems(basketItem)
     						basketItem.delete()
     					} else { 
     						basketItem.quantity = qty

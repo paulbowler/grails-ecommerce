@@ -18,4 +18,9 @@ class Basket implements Serializable {
     	}
     	return total
     }
+    
+    static mapping = {
+    	basketItems cascade: "all-delete-orphan"
+	}
+
 }

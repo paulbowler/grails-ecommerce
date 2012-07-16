@@ -37,7 +37,7 @@
 							<g:each in="${basket.basketItems}" status="i" var="basketItem">
 								<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
 									<td>${fieldValue(bean: basketItem, field: "product.name")}</td>
-									<td><g:field type="number" name="${basketItem.product.id}" min="0" step="1" value="${basketItem.quantity}"/></td>
+									<td><g:field type="number" name="sku-${basketItem.product.sku}" min="0" step="1" value="${basketItem.quantity}"/></td>
 									<td>
 										<g:formatNumber number="${basketItem.quantity * basketItem.product.price/100}" type="currency" currencyCode="GBP" />
 									</td>

@@ -13,11 +13,10 @@ def model
 Given(~'^I have an empty basket\$') { ->
 }
 When(~'^I view my basket\$') { ->
-    model = basketController.show()
+	model = basketController.show()
 }
 Then(~'^I see (\\d+) items? in my basket\$') { int items ->
-	assertNotNull model.basket
-	assertNull model.basket.basketItems
+	assertEquals items, (model.basket.basketItems?.size() ?: 0)
 }
 
 Given(~'^the following items are available:\$') { DataTable items ->
@@ -27,23 +26,24 @@ Given(~'^the following items are available:\$') { DataTable items ->
     }
 }
 When(~'^I add product with SKU (.*) to my basket$') { String sku ->
+	basketController.response.reset()
 	basketController.params.sku = sku
-    basketController.add()
+	model = basketController.add()
 }
 Then(~'^my basket contains the product with SKU (.*), name (.*), price (\\d+) and quantity (\\d+)\$') { String sku, String name, int price, int quantity ->
-    model = basketController.show()
     def item = model.basket.basketItems.findAll{ item -> item.product.sku == sku }
     assertEquals item.size(), 1
     assertEquals item.product.name[0], name
     assertEquals item.product.price[0], price
-    assertEquals item.quantity[0], 1
+    assertEquals item.quantity[0], quantity
 }
 
 Then(~'^the flash message reads "(.*)"\$') { String message ->
-    assertEquals basketController.flash.message, message
+    assertEquals message, basketController.flash.message
 }
 
 When(~'^I update the quantity of product with SKU (.*) to (\\d+)\$') { String sku, int quantity ->
-    basketController.params.id = quantity
-    basketController.update()
+	basketController.response.reset()
+    basketController.params."sku-${sku}" = quantity
+    model = basketController.update()
 }
