@@ -19,7 +19,7 @@ Then(~'^I see (\\d+) items? in my basket\$') { int items ->
 	assertEquals items, (model.basket.basketItems?.size() ?: 0)
 }
 
-Given(~'^the following items are available:\$') { DataTable items ->
+Given(~'^the following items are available for purchase:\$') { DataTable items ->
 	def products = items.asList(Product)
     products.each { item ->
     	new Product(sku: item.sku, name: item.name, description: item.description, price: item.price).save(failOnError: true)
