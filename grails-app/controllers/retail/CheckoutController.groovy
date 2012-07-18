@@ -13,6 +13,14 @@ class CheckoutController {
     
     @Secured(['ROLE_USER'])
     def detailsFlow = {
+    	empty() {
+    		action {
+    			def basket = basketService.findOrCreateBasket(session)
+        		if (!basket.basketItems) return emptyBasket()
+        	}
+        	on("emptyBasket").to("emptyBasket")
+        	on("success").to("basket")
+    	}
     	basket() {
     		onEntry {
     			def basket = basketService.findOrCreateBasket(session)
@@ -104,6 +112,7 @@ class CheckoutController {
         	}.to "complete"
         	on("error").to "payment"
     	}
+    	emptyBasket()
     	complete()
     }
     
